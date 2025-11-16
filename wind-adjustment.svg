@@ -67,6 +67,6 @@
 
   <!-- Formula annotation -->
   <text x="400" y="465" font-family="monospace" font-size="11" fill="#666" text-anchor="middle">
-    Formula: Adjustment = 2 × log₁₀(1 + wind_speed)
+    Formula: Adjustment = 0.868589 × ln(1 + wind_speed)
   </text>
 </svg>

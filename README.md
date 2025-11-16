@@ -7,7 +7,7 @@ Temperature compensation curve equation for home heating system with Home Assist
 ```python
 {{ min(60, max(20,
     2.55 * (1.0 * max(0, 20 - float(states('sensor.gw3000a_outdoor_temperature')))) ** 0.78 + 20
-    + 2 * log10(1 + float(states('sensor.average_wind_speed_hourly')))
+    + 0.868589 * log(1 + float(states('sensor.average_wind_speed_hourly')))
 )) | round(0) }}
 ```
 
@@ -39,10 +39,11 @@ A compensation curve (also known as a weather compensation curve) automatically 
    - **2.55** = Scaling constant from Vaillant heat pump analysis
    - Creates a curved response that matches how radiators actually transfer heat
 
-2. **Wind chill compensation**: `+ 2 × log10(1 + wind_speed)`
+2. **Wind chill compensation**: `+ 0.868589 × ln(1 + wind_speed)`
    - Adds extra heating when windy (wind increases heat loss)
    - Logarithmic scale prevents over-compensation
    - Typically adds 0-3°C depending on conditions (see graph below)
+   - Coefficient 0.868589 = 2/ln(10) converts natural log to base-10 equivalent
 
 3. **Safety limits**: `min(60, max(20, ...))`
    - **Minimum**: 20°C (prevents system shutdown)
@@ -95,7 +96,7 @@ Example for HC=0.8:
 ```python
 {{ min(60, max(20,
     2.55 * (0.8 * max(0, 20 - float(states('sensor.gw3000a_outdoor_temperature')))) ** 0.78 + 20
-    + 2 * log10(1 + float(states('sensor.average_wind_speed_hourly')))
+    + 0.868589 * log(1 + float(states('sensor.average_wind_speed_hourly')))
 )) | round(0) }}
 ```
 
