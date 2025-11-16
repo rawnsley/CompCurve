@@ -75,14 +75,14 @@ The wind adjustment follows a logarithmic curve, providing significant compensat
 
 | Outdoor Temp | Flow Temp (no wind) | With 10 km/h wind |
 |--------------|---------------------|-------------------|
-| -20°C        | 60°C (max)          | 60°C (max)        |
-| -10°C        | 56.2°C              | 60°C              |
-| -5°C         | 51.4°C              | 56°C              |
-| 0°C          | 46.4°C              | 51°C              |
-| 5°C          | 41.1°C              | 46°C              |
-| 10°C         | 35.4°C              | 40°C              |
-| 15°C         | 28.9°C              | 34°C              |
-| 20°C         | 20°C (min)          | 25°C              |
+| -20°C        | 60.0°C (max)        | 60.0°C (max)      |
+| -10°C        | 56.2°C              | 58.3°C            |
+| -5°C         | 51.4°C              | 53.5°C            |
+| 0°C          | 46.4°C              | 48.5°C            |
+| 5°C          | 41.1°C              | 43.2°C            |
+| 10°C         | 35.4°C              | 37.4°C            |
+| 15°C         | 28.9°C              | 31.0°C            |
+| 20°C         | 20.0°C (min)        | 22.1°C            |
 
 ## Adjusting the Curve
 
