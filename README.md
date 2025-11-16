@@ -42,7 +42,7 @@ A compensation curve (also known as a weather compensation curve) automatically 
 2. **Wind chill compensation**: `+ 2 × log(1 + wind_speed)`
    - Adds extra heating when windy (wind increases heat loss)
    - Logarithmic scale prevents over-compensation
-   - Typically adds 0-6°C depending on conditions
+   - Typically adds 0-7°C depending on conditions (see graph below)
 
 3. **Safety limits**: `min(60, max(20, ...))`
    - **Minimum**: 20°C (prevents system shutdown)
@@ -63,6 +63,12 @@ The 0.78 exponent compensates for this physics, ensuring heating power remains p
 ![Compensation Curve](compensation-curve.svg)
 
 The graph shows the non-linear relationship between outdoor and flow temperatures. Notice the curve is steeper at lower temperatures (more aggressive heating when cold) and flattens as it approaches indoor comfort levels.
+
+## Wind Adjustment Visualization
+
+![Wind Adjustment](wind-adjustment.svg)
+
+The wind adjustment follows a logarithmic curve, providing significant compensation at lower wind speeds (0-10 km/h) while preventing over-compensation at high wind speeds. This matches the real-world physics where initial wind has the most impact on heat loss.
 
 ## Temperature Reference Table
 
