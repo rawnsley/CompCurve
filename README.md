@@ -63,7 +63,13 @@ The 0.78 exponent compensates for this physics, ensuring heating power remains p
 
 ![Compensation Curve](compensation-curve.svg)
 
-The graph shows the non-linear relationship between outdoor and flow temperatures. Notice the curve is steeper at lower temperatures (more aggressive heating when cold) and flattens as it approaches indoor comfort levels.
+The graph shows the non-linear relationship between outdoor and flow temperatures for three different Heat Curve (HC) parameter values:
+
+- **HC = 0.8 (Conservative)**: Milder heating, lower flow temperatures
+- **HC = 1.0 (Default)**: Recommended balance for most systems
+- **HC = 1.5 (Aggressive)**: Higher flow temperatures, more intense heating
+
+Notice all curves are steeper at lower temperatures (more aggressive heating when cold) and flatten as they approach indoor comfort levels. The HC parameter shifts the entire curve up or down without changing its fundamental shape.
 
 ## Wind Adjustment Visualization
 
