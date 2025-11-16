@@ -78,8 +78,8 @@ The following graph shows the base compensation curve (without wind chill compen
 
 ![Compensation Curve](compensation-curve.svg)
 
-**Base formula**: Flow Temp = 48 - Outdoor Temp
-**Active range**: -10°C to 28°C outdoor (before hitting limits)
+**Base formula**: Flow Temp = 48 - Outdoor Temp<br>
+**Active range**: -10°C to 28°C outdoor (before hitting limits)<br>
 **Capped range**: 20°C minimum, 60°C maximum
 
 ### Key Points on the Curve

@@ -1,0 +1,13 @@
+# EditorConfig for CompCurve project
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.md]
+# Preserve two trailing spaces for Markdown hard line breaks
+trim_trailing_whitespace = false
+# Use two spaces at end of line for hard breaks in Markdown
