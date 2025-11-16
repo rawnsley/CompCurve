@@ -63,12 +63,7 @@ The 0.78 exponent compensates for this physics, ensuring heating power remains p
 
 ![Compensation Curve](compensation-curve.svg)
 
-The graph shows the complete compensation curve with three wind scenarios:
-- **Solid line** (no wind): Base non-linear curve
-- **Dashed line** (5 km/h): Light wind adjustment (+1.6°C)
-- **Dotted line** (10 km/h): Moderate wind adjustment (+2.1°C)
-
-Notice how the curves are steeper at lower temperatures (more aggressive heating when cold) and flatten as they approach indoor comfort levels. Wind compensation provides consistent additional heating across all outdoor temperatures.
+The graph shows the non-linear relationship between outdoor and flow temperatures. Notice the curve is steeper at lower temperatures (more aggressive heating when cold) and flattens as it approaches indoor comfort levels.
 
 ## Wind Adjustment Visualization
 
