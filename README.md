@@ -1,99 +1,103 @@
 # CompCurve
 
-A simple project to manage a temperature compensation curve equation for home heating.
+Temperature compensation curve equation for home heating system with Home Assistant integration.
 
-## Overview
+## Home Assistant Helper Equation
 
-This project manages the temperature compensation curve used to optimize heating system performance based on outdoor temperature conditions.
+```python
+{{ min(60, max(20,
+    2.55 * (1.0 * max(0, 20 - float(states('sensor.gw3000a_outdoor_temperature')))) ** 0.78 + 20
+    + 2 * log(1 + float(states('sensor.average_wind_speed_hourly')))
+)) | round(0) }}
+```
 
 ## What is a Compensation Curve?
 
-A compensation curve (also known as a weather compensation curve) is used in heating systems to automatically adjust the flow temperature of the heating system based on the outdoor temperature. This ensures:
+A compensation curve (also known as a weather compensation curve) automatically adjusts your heating system's flow temperature based on outdoor temperature. This ensures:
 
 - Optimal comfort levels
 - Energy efficiency
 - Reduced heating costs
 - Consistent indoor temperatures
 
-## How It Works
+### How It Works
 
-The compensation curve typically follows a relationship where:
-- Lower outdoor temperatures → Higher heating flow temperatures
-- Higher outdoor temperatures → Lower heating flow temperatures
+- **Lower outdoor temperatures** → Higher heating flow temperatures
+- **Higher outdoor temperatures** → Lower heating flow temperatures
 
-The curve is usually defined by parameters such as:
-- **Curve slope**: How aggressively the system responds to outdoor temperature changes
-- **Parallel shift**: Offset to adjust the overall temperature level
-- **Design temperature**: The lowest expected outdoor temperature
-- **Maximum flow temperature**: Upper limit for the heating system
+## Formula Breakdown
 
-# Home Assistant Helper Equation
-
-```python
-{{ min(60, max(20, 48 - float(states('sensor.gw3000a_outdoor_temperature')) + 2 * log(1 + float(states('sensor.average_wind_speed_hourly'))))) | round(0) }}
-```
-
-## Equation Analysis
-
-**Formula breakdown:**
-```
-Target Temperature = min(60, max(20, 48 - outdoor_temp + 2 * log(1 + wind_speed)))
-```
+**Base Formula:**<br>
+`TFlow = 2.55 × (HC × (Tset - Tout))^0.78 + Tset + WindAdjustment`
 
 ### Components
 
-1. **Base calculation**: `48 - outdoor_temp`
-   - When outdoor temp = 0°C → flow temp = 48°C
-   - When outdoor temp = 20°C → flow temp = 28°C
-   - This creates a **1:1 inverse slope** (for every 1°C drop outside, add 1°C to flow temperature)
+1. **Non-linear base calculation**: `2.55 × (HC × (Tset - Tout))^0.78 + Tset`
+   - **HC** = Heat Curve parameter = 1.0 (adjustable 0.8-1.5)
+   - **Tset** = Set/comfort temperature = 20°C
+   - **0.78** = Exponent matching radiator physics
+   - **2.55** = Scaling constant from Vaillant heat pump analysis
+   - Creates a curved response that matches how radiators actually transfer heat
 
-2. **Wind chill compensation**: `+ 2 * log(1 + wind_speed)`
-   - Adds extra heating when it's windy (wind increases heat loss)
-   - Uses logarithmic scale so the effect diminishes as wind speed increases
-   - The `+1` prevents log(0) errors and softens the initial response
-   - Multiplier of `2` amplifies the wind effect
+2. **Wind chill compensation**: `+ 2 × log(1 + wind_speed)`
+   - Adds extra heating when windy (wind increases heat loss)
+   - Logarithmic scale prevents over-compensation
+   - Typically adds 0-6°C depending on conditions
 
 3. **Safety limits**: `min(60, max(20, ...))`
-   - **Minimum**: 20°C (prevents system from turning off completely)
-   - **Maximum**: 60°C (protects system components and prevents scalding)
+   - **Minimum**: 20°C (prevents system shutdown)
+   - **Maximum**: 60°C (protects components and prevents scalding)
 
 4. **Rounding**: `| round(0)` → whole degree output
 
-### Example Scenarios
+## Why Non-Linear?
 
-- **Mild day** (15°C, 5 km/h wind): `48 - 15 + 2*log(6)` ≈ **36°C**
-- **Cold calm day** (0°C, 0 km/h wind): `48 - 0 + 2*log(1)` = **48°C**
-- **Cold windy day** (0°C, 20 km/h wind): `48 - 0 + 2*log(21)` ≈ **54°C**
-- **Very cold windy** (-5°C, 30 km/h wind): Would calculate to ~60°C but capped at **60°C**
+Radiator heat output is non-linear due to two heat transfer mechanisms:
+- **Radiation**: Linear relationship to temperature difference
+- **Convection**: Non-linear due to variable air flow speeds (chimney effect)
 
-### Characteristics
+The 0.78 exponent compensates for this physics, ensuring heating power remains proportional to the actual heating need across all conditions.
 
-- **Curve center point**: 48°C at 0°C outdoor temp
-- **Wind sensitivity**: Good - logarithmic response prevents over-compensation
-- **Conservative design**: The 1:1 slope is relatively gentle (some systems use steeper curves like 1.5:1)
-
-## Compensation Curve Graph
-
-The following graph shows the base compensation curve (without wind chill compensation):
+## Compensation Curve Visualization
 
 ![Compensation Curve](compensation-curve.svg)
 
-**Base formula**: Flow Temp = 48 - Outdoor Temp<br>
-**Active range**: -10°C to 28°C outdoor (before hitting limits)<br>
-**Capped range**: 20°C minimum, 60°C maximum
+The graph shows the non-linear relationship between outdoor and flow temperatures. Notice the curve is steeper at lower temperatures (more aggressive heating when cold) and flattens as it approaches indoor comfort levels.
 
-### Key Points on the Curve
+## Temperature Reference Table
 
-| Outdoor Temp | Calculated Flow Temp | Actual (after limits) |
-|--------------|---------------------|----------------------|
-| -10°C        | 58°C                | 58°C                 |
-| -5°C         | 53°C                | 53°C                 |
-| 0°C          | 48°C                | 48°C                 |
-| 5°C          | 43°C                | 43°C                 |
-| 10°C         | 38°C                | 38°C                 |
-| 15°C         | 33°C                | 33°C                 |
-| 20°C         | 28°C                | 28°C                 |
-| 25°C         | 23°C                | 23°C                 |
-| 30°C         | 18°C                | 20°C (min cap)       |
+| Outdoor Temp | Flow Temp (no wind) | With 10 km/h wind |
+|--------------|---------------------|-------------------|
+| -20°C        | 60°C (max)          | 60°C (max)        |
+| -10°C        | 56.2°C              | 60°C              |
+| -5°C         | 51.4°C              | 56°C              |
+| 0°C          | 46.4°C              | 51°C              |
+| 5°C          | 41.1°C              | 46°C              |
+| 10°C         | 35.4°C              | 40°C              |
+| 15°C         | 28.9°C              | 34°C              |
+| 20°C         | 20°C (min)          | 25°C              |
 
-**Note**: Wind speed adds 0-6°C to these values depending on conditions (see wind compensation formula above).
+## Adjusting the Curve
+
+To make the heating more or less aggressive, adjust the **HC** (Heat Curve) parameter:
+
+- **HC = 0.8**: Conservative, milder heating
+- **HC = 1.0**: Recommended balance (default)
+- **HC = 1.5**: Aggressive, hotter heating
+
+Example for HC=0.8:
+```python
+{{ min(60, max(20,
+    2.55 * (0.8 * max(0, 20 - float(states('sensor.gw3000a_outdoor_temperature')))) ** 0.78 + 20
+    + 2 * log(1 + float(states('sensor.average_wind_speed_hourly')))
+)) | round(0) }}
+```
+
+## Reference
+
+Formula based on Vaillant heat pump compensation curve analysis:<br>
+[Vaillant Heat Pump Controls: The Heat Curves](https://protonsforbreakfast.wordpress.com/2024/10/16/vaillant-heat-pump-controls-part-1-the-heat-curves/)
+
+## Previous Linear Version
+
+The original linear formula (`48 - outdoor_temp`) has been replaced with this non-linear version for better efficiency and radiator physics matching. See git history for the previous implementation.
