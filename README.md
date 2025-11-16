@@ -84,6 +84,10 @@ The wind adjustment follows a logarithmic curve, providing significant compensat
 | 15°C         | 28.9°C              | 31.0°C       | 31.6°C       | 31.9°C       |
 | 20°C         | 20.0°C (min)        | 22.1°C       | 22.6°C       | 23.0°C       |
 
+![Table Graph](table-graph.svg)
+
+The graph visualizes all values from the table above, showing how flow temperature varies with outdoor temperature across four wind scenarios. Notice how the curves are parallel, with wind adding a consistent offset across all outdoor temperatures.
+
 ## Adjusting the Curve
 
 To make the heating more or less aggressive, adjust the **HC** (Heat Curve) parameter:

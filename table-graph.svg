@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <!-- Title -->
+  <text x="400" y="25" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle" fill="#333">
+    Flow Temperature vs Outdoor Temperature (Wind Scenarios)
+  </text>
+
+  <!-- Background -->
+  <rect x="80" y="50" width="640" height="380" fill="#f9f9f9" stroke="#ddd" stroke-width="1"/>
+
+  <!-- Grid lines -->
+  <g stroke="#e0e0e0" stroke-width="1">
+    <!-- Horizontal grid lines (every 5°C flow temp) -->
+    <line x1="80" y1="50" x2="720" y2="50"/>   <!-- 60°C -->
+    <line x1="80" y1="98" x2="720" y2="98"/>   <!-- 55°C -->
+    <line x1="80" y1="145" x2="720" y2="145"/> <!-- 50°C -->
+    <line x1="80" y1="193" x2="720" y2="193"/> <!-- 45°C -->
+    <line x1="80" y1="240" x2="720" y2="240"/> <!-- 40°C -->
+    <line x1="80" y1="288" x2="720" y2="288"/> <!-- 35°C -->
+    <line x1="80" y1="335" x2="720" y2="335"/> <!-- 30°C -->
+    <line x1="80" y1="383" x2="720" y2="383"/> <!-- 25°C -->
+    <line x1="80" y1="430" x2="720" y2="430"/> <!-- 20°C -->
+
+    <!-- Vertical grid lines (every 5°C outdoor) -->
+    <line x1="80" y1="50" x2="80" y2="430"/>    <!-- -20°C -->
+    <line x1="160" y1="50" x2="160" y2="430"/>  <!-- -15°C -->
+    <line x1="240" y1="50" x2="240" y2="430"/>  <!-- -10°C -->
+    <line x1="320" y1="50" x2="320" y2="430"/>  <!-- -5°C -->
+    <line x1="400" y1="50" x2="400" y2="430"/>  <!-- 0°C -->
+    <line x1="480" y1="50" x2="480" y2="430"/>  <!-- 5°C -->
+    <line x1="560" y1="50" x2="560" y2="430"/>  <!-- 10°C -->
+    <line x1="640" y1="50" x2="640" y2="430"/>  <!-- 15°C -->
+    <line x1="720" y1="50" x2="720" y2="430"/>  <!-- 20°C -->
+  </g>
+
+  <!-- Axes -->
+  <line x1="80" y1="50" x2="80" y2="430" stroke="#333" stroke-width="2"/>
+  <line x1="80" y1="430" x2="720" y2="430" stroke="#333" stroke-width="2"/>
+
+  <!-- Y-axis labels (Flow Temperature) -->
+  <g font-family="Arial, sans-serif" font-size="12" fill="#333" text-anchor="end">
+    <text x="72" y="54">60°C</text>
+    <text x="72" y="102">55°C</text>
+    <text x="72" y="149">50°C</text>
+    <text x="72" y="197">45°C</text>
+    <text x="72" y="244">40°C</text>
+    <text x="72" y="292">35°C</text>
+    <text x="72" y="339">30°C</text>
+    <text x="72" y="387">25°C</text>
+    <text x="72" y="434">20°C</text>
+  </g>
+
+  <!-- X-axis labels (Outdoor Temperature) -->
+  <g font-family="Arial, sans-serif" font-size="12" fill="#333" text-anchor="middle">
+    <text x="80" y="448">-20°C</text>
+    <text x="160" y="448">-15°C</text>
+    <text x="240" y="448">-10°C</text>
+    <text x="320" y="448">-5°C</text>
+    <text x="400" y="448">0°C</text>
+    <text x="480" y="448">5°C</text>
+    <text x="560" y="448">10°C</text>
+    <text x="640" y="448">15°C</text>
+    <text x="720" y="448">20°C</text>
+  </g>
+
+  <!-- Axis labels -->
+  <text x="20" y="240" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333" text-anchor="middle" transform="rotate(-90 20 240)">
+    Flow Temperature (°C)
+  </text>
+  <text x="400" y="480" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333" text-anchor="middle">
+    Outdoor Temperature (°C)
+  </text>
+
+  <!-- Reference lines -->
+  <line x1="80" y1="50" x2="720" y2="50" stroke="#e74c3c" stroke-width="2" stroke-dasharray="5,5" opacity="0.3"/>
+  <text x="725" y="54" font-family="Arial, sans-serif" font-size="10" fill="#e74c3c">60°C max</text>
+
+  <line x1="80" y1="430" x2="720" y2="430" stroke="#3498db" stroke-width="2" stroke-dasharray="5,5" opacity="0.3"/>
+  <text x="725" y="434" font-family="Arial, sans-serif" font-size="10" fill="#3498db">20°C min</text>
+
+  <!-- Curve lines -->
+  <polyline points="80.0,50.0 96.0,50.0 112.0,50.0 128.0,50.0 144.0,50.0 160.0,50.0 176.0,50.8 192.0,59.6 208.0,68.4 224.0,77.2 240.0,86.1 256.0,95.1 272.0,104.1 288.0,113.2 304.0,122.4 320.0,131.7 336.0,141.0 352.0,150.5 368.0,160.0 384.0,169.6 400.0,179.4 416.0,189.2 432.0,199.1 448.0,209.2 464.0,219.4 480.0,229.7 496.0,240.2 512.0,250.9 528.0,261.7 544.0,272.8 560.0,284.0 576.0,295.5 592.0,307.3 608.0,319.5 624.0,332.0 640.0,345.0 656.0,358.6 672.0,372.9 688.0,388.4 704.0,405.8 720.0,430.0" fill="none" stroke="#2c3e50" stroke-width="3"/>
+  <polyline points="80.0,50.0 96.0,50.0 112.0,50.0 128.0,50.0 144.0,50.0 160.0,50.0 176.0,50.0 192.0,50.0 208.0,50.0 224.0,57.4 240.0,66.3 256.0,75.3 272.0,84.3 288.0,93.5 304.0,102.6 320.0,111.9 336.0,121.3 352.0,130.7 368.0,140.2 384.0,149.8 400.0,159.6 416.0,169.4 432.0,179.3 448.0,189.4 464.0,199.6 480.0,209.9 496.0,220.4 512.0,231.1 528.0,241.9 544.0,253.0 560.0,264.2 576.0,275.8 592.0,287.6 608.0,299.7 624.0,312.2 640.0,325.2 656.0,338.8 672.0,353.1 688.0,368.6 704.0,386.0 720.0,410.2" fill="none" stroke="#3498db" stroke-width="2.5"/>
+  <polyline points="80.0,50.0 96.0,50.0 112.0,50.0 128.0,50.0 144.0,50.0 160.0,50.0 176.0,50.0 192.0,50.0 208.0,50.0 224.0,52.1 240.0,61.0 256.0,70.0 272.0,79.0 288.0,88.1 304.0,97.3 320.0,106.6 336.0,115.9 352.0,125.4 368.0,134.9 384.0,144.5 400.0,154.2 416.0,164.1 432.0,174.0 448.0,184.1 464.0,194.3 480.0,204.6 496.0,215.1 512.0,225.8 528.0,236.6 544.0,247.6 560.0,258.9 576.0,270.4 592.0,282.2 608.0,294.4 624.0,306.9 640.0,319.9 656.0,333.4 672.0,347.8 688.0,363.3 704.0,380.7 720.0,404.9" fill="none" stroke="#e67e22" stroke-width="2.5"/>
+  <polyline points="80.0,50.0 96.0,50.0 112.0,50.0 128.0,50.0 144.0,50.0 160.0,50.0 176.0,50.0 192.0,50.0 208.0,50.0 224.0,50.0 240.0,57.8 256.0,66.7 272.0,75.8 288.0,84.9 304.0,94.1 320.0,103.4 336.0,112.7 352.0,122.1 368.0,131.7 384.0,141.3 400.0,151.0 416.0,160.8 432.0,170.8 448.0,180.9 464.0,191.1 480.0,201.4 496.0,211.9 512.0,222.5 528.0,233.4 544.0,244.4 560.0,255.7 576.0,267.2 592.0,279.0 608.0,291.1 624.0,303.7 640.0,316.7 656.0,330.2 672.0,344.6 688.0,360.1 704.0,377.4 720.0,401.7" fill="none" stroke="#e74c3c" stroke-width="2.5"/>
+
+  <!-- Legend -->
+  <g transform="translate(540, 90)">
+    <rect x="0" y="0" width="180" height="120" fill="white" stroke="#999" stroke-width="1" rx="5"/>
+
+    <line x1="10" y1="20" x2="40" y2="20" stroke="#2c3e50" stroke-width="3"/>
+    <text x="45" y="24" font-family="Arial, sans-serif" font-size="11" fill="#333">No wind (0 km/h)</text>
+
+    <line x1="10" y1="45" x2="40" y2="45" stroke="#3498db" stroke-width="2.5"/>
+    <text x="45" y="49" font-family="Arial, sans-serif" font-size="11" fill="#333">10 km/h wind</text>
+
+    <line x1="10" y1="70" x2="40" y2="70" stroke="#e67e22" stroke-width="2.5"/>
+    <text x="45" y="74" font-family="Arial, sans-serif" font-size="11" fill="#333">20 km/h wind</text>
+
+    <line x1="10" y1="95" x2="40" y2="95" stroke="#e74c3c" stroke-width="2.5"/>
+    <text x="45" y="99" font-family="Arial, sans-serif" font-size="11" fill="#333">30 km/h wind</text>
+  </g>
+
+</svg>
