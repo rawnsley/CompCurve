@@ -73,16 +73,16 @@ The wind adjustment follows a logarithmic curve, providing significant compensat
 
 ## Temperature Reference Table
 
-| Outdoor Temp | Flow Temp (no wind) | With 10 km/h wind |
-|--------------|---------------------|-------------------|
-| -20°C        | 60.0°C (max)        | 60.0°C (max)      |
-| -10°C        | 56.2°C              | 58.3°C            |
-| -5°C         | 51.4°C              | 53.5°C            |
-| 0°C          | 46.4°C              | 48.5°C            |
-| 5°C          | 41.1°C              | 43.2°C            |
-| 10°C         | 35.4°C              | 37.4°C            |
-| 15°C         | 28.9°C              | 31.0°C            |
-| 20°C         | 20.0°C (min)        | 22.1°C            |
+| Outdoor Temp | Flow Temp (no wind) | 10 km/h wind | 20 km/h wind | 30 km/h wind |
+|--------------|---------------------|--------------|--------------|--------------|
+| -20°C        | 60.0°C (max)        | 60.0°C (max) | 60.0°C (max) | 60.0°C (max) |
+| -10°C        | 56.2°C              | 58.3°C       | 58.8°C       | 59.2°C       |
+| -5°C         | 51.4°C              | 53.5°C       | 54.0°C       | 54.4°C       |
+| 0°C          | 46.4°C              | 48.5°C       | 49.0°C       | 49.4°C       |
+| 5°C          | 41.1°C              | 43.2°C       | 43.7°C       | 44.1°C       |
+| 10°C         | 35.4°C              | 37.4°C       | 38.0°C       | 38.3°C       |
+| 15°C         | 28.9°C              | 31.0°C       | 31.6°C       | 31.9°C       |
+| 20°C         | 20.0°C (min)        | 22.1°C       | 22.6°C       | 23.0°C       |
 
 ## Adjusting the Curve
 
