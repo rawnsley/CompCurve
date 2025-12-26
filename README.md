@@ -7,7 +7,7 @@ Temperature compensation curve equation for home heating system with Home Assist
 ```python
 {{ min(60, max(20,
     2.55 * (1.0 * max(0, 20 - float(states('sensor.gw3000a_outdoor_temperature')))) ** 0.78 + 20
-    + 0.868589 * log(1 + float(states('sensor.average_wind_speed_hourly')))
+    + 0.1178 * float(states('sensor.average_wind_speed_hourly')) ** 0.898
 )) | round(0) }}
 ```
 
@@ -39,11 +39,11 @@ A compensation curve (also known as a weather compensation curve) automatically 
    - **2.55** = Scaling constant from Vaillant heat pump analysis
    - Creates a curved response that matches how radiators actually transfer heat
 
-2. **Wind chill compensation**: `+ 0.868589 × ln(1 + wind_speed)`
+2. **Wind chill compensation**: `+ 0.1178 × wind_speed^0.898`
    - Adds extra heating when windy (wind increases heat loss)
-   - Logarithmic scale prevents over-compensation
-   - Typically adds 0-3°C depending on conditions (see graph below)
-   - Coefficient 0.868589 = 2/ln(10) converts natural log to base-10 equivalent
+   - Power law provides gradual increase with diminishing returns
+   - Typically adds 0-2.5°C depending on conditions (see graph below)
+   - Tuned for +0.5°C at 5 km/h and +2.5°C at 30 km/h
 
 3. **Safety limits**: `min(60, max(20, ...))`
    - **Minimum**: 20°C (prevents system shutdown)
@@ -75,20 +75,20 @@ Notice all curves are steeper at lower temperatures (more aggressive heating whe
 
 ![Wind Adjustment](wind-adjustment.svg)
 
-The wind adjustment follows a logarithmic curve, providing significant compensation at lower wind speeds (0-10 km/h) while preventing over-compensation at high wind speeds. This matches the real-world physics where initial wind has the most impact on heat loss.
+The wind adjustment follows a power law curve, providing moderate compensation that increases gradually with wind speed. This gives +0.5°C at 5 km/h and +2.5°C at 30 km/h, matching real-world observations of wind-induced heat loss.
 
 ## Temperature Reference Table
 
 | Outdoor Temp | Flow Temp (no wind) | 10 km/h wind | 20 km/h wind | 30 km/h wind |
 |--------------|---------------------|--------------|--------------|--------------|
 | -20°C        | 60.0°C (max)        | 60.0°C (max) | 60.0°C (max) | 60.0°C (max) |
-| -10°C        | 56.2°C              | 58.3°C       | 58.8°C       | 59.2°C       |
-| -5°C         | 51.4°C              | 53.5°C       | 54.0°C       | 54.4°C       |
-| 0°C          | 46.4°C              | 48.5°C       | 49.0°C       | 49.4°C       |
-| 5°C          | 41.1°C              | 43.2°C       | 43.7°C       | 44.1°C       |
-| 10°C         | 35.4°C              | 37.4°C       | 38.0°C       | 38.3°C       |
-| 15°C         | 28.9°C              | 31.0°C       | 31.6°C       | 31.9°C       |
-| 20°C         | 20.0°C (min)        | 22.1°C       | 22.6°C       | 23.0°C       |
+| -10°C        | 56.2°C              | 57.1°C       | 57.9°C       | 58.7°C       |
+| -5°C         | 51.4°C              | 52.3°C       | 53.1°C       | 53.9°C       |
+| 0°C          | 46.4°C              | 47.3°C       | 48.1°C       | 48.9°C       |
+| 5°C          | 41.1°C              | 42.0°C       | 42.8°C       | 43.6°C       |
+| 10°C         | 35.4°C              | 36.3°C       | 37.1°C       | 37.9°C       |
+| 15°C         | 28.9°C              | 29.9°C       | 30.7°C       | 31.4°C       |
+| 20°C         | 20.0°C (min)        | 20.9°C       | 21.7°C       | 22.5°C       |
 
 ![Table Graph](table-graph.svg)
 
@@ -106,7 +106,7 @@ Example for HC=0.75:
 ```python
 {{ min(60, max(20,
     2.55 * (0.75 * max(0, 20 - float(states('sensor.gw3000a_outdoor_temperature')))) ** 0.78 + 20
-    + 0.868589 * log(1 + float(states('sensor.average_wind_speed_hourly')))
+    + 0.1178 * float(states('sensor.average_wind_speed_hourly')) ** 0.898
 )) | round(0) }}
 ```
 
