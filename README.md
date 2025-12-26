@@ -77,7 +77,7 @@ Notice all curves are steeper at lower temperatures (more aggressive heating whe
 
 The wind adjustment follows a power law curve, providing moderate compensation that increases gradually with wind speed. This gives +0.5°C at 5 km/h and +2.5°C at 30 km/h, matching real-world observations of wind-induced heat loss.
 
-## Temperature Reference Table
+## Temperature Reference Table (HC = 0.75)
 
 | Outdoor Temp | Flow Temp (no wind) | 10 km/h wind | 20 km/h wind | 30 km/h wind |
 |--------------|---------------------|--------------|--------------|--------------|
@@ -93,24 +93,6 @@ The wind adjustment follows a power law curve, providing moderate compensation t
 ![Table Graph](table-graph.svg)
 
 The graph visualizes all values from the table above, showing how flow temperature varies with outdoor temperature across four wind scenarios. Notice how the curves are parallel, with wind adding a consistent offset across all outdoor temperatures.
-
-## Adjusting the Curve
-
-To make the heating more or less aggressive, adjust the **HC** (Heat Curve) parameter:
-
-- **HC = 0.5**: Conservative, milder heating
-- **HC = 0.75**: Recommended balance (default)
-- **HC = 1.0**: Aggressive, hotter heating
-
-Example for HC=1.0:
-```python
-{{ min(60, max(20,
-    2.55 * (1.0 * max(0, 20 - float(states('sensor.gw3000a_outdoor_temperature')))) ** 0.78 + 20
-    + 0.1178 * float(states('sensor.average_wind_speed_hourly')) ** 0.898
-)) | round(0) }}
-```
-
-![HC = 1.0 Example](hc-example.svg)
 
 ## Reference
 
