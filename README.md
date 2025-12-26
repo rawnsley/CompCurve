@@ -102,13 +102,15 @@ To make the heating more or less aggressive, adjust the **HC** (Heat Curve) para
 - **HC = 1.0**: Recommended balance (default)
 - **HC = 1.5**: Aggressive, hotter heating
 
-Example for HC=0.8:
+Example for HC=0.75:
 ```python
 {{ min(60, max(20,
-    2.55 * (0.8 * max(0, 20 - float(states('sensor.gw3000a_outdoor_temperature')))) ** 0.78 + 20
+    2.55 * (0.75 * max(0, 20 - float(states('sensor.gw3000a_outdoor_temperature')))) ** 0.78 + 20
     + 0.868589 * log(1 + float(states('sensor.average_wind_speed_hourly')))
 )) | round(0) }}
 ```
+
+![HC = 0.75 Example](hc-example.svg)
 
 ## Reference
 
