@@ -6,7 +6,7 @@ Temperature compensation curve equation for home heating system with Home Assist
 
 ```python
 {{ min(60, max(20,
-    2.55 * (1.0 * max(0, 20 - float(states('sensor.gw3000a_outdoor_temperature')))) ** 0.78 + 20
+    2.55 * (0.75 * max(0, 20 - float(states('sensor.gw3000a_outdoor_temperature')))) ** 0.78 + 20
     + 0.1178 * float(states('sensor.average_wind_speed_hourly')) ** 0.898
 )) | round(0) }}
 ```
@@ -33,7 +33,7 @@ A compensation curve (also known as a weather compensation curve) automatically 
 ### Components
 
 1. **Non-linear base calculation**: `2.55 × (HC × (Tset - Tout))^0.78 + Tset`
-   - **HC** = Heat Curve parameter = 1.0 (adjustable 0.8-1.5)
+   - **HC** = Heat Curve parameter = 0.75 (adjustable 0.5-1.5)
    - **Tset** = Set/comfort temperature = 20°C
    - **0.78** = Exponent matching radiator physics
    - **2.55** = Scaling constant from Vaillant heat pump analysis
@@ -65,9 +65,9 @@ The 0.78 exponent compensates for this physics, ensuring heating power remains p
 
 The graph shows the non-linear relationship between outdoor and flow temperatures for three different Heat Curve (HC) parameter values:
 
-- **HC = 0.8 (Conservative)**: Milder heating, lower flow temperatures
-- **HC = 1.0 (Default)**: Recommended balance for most systems
-- **HC = 1.5 (Aggressive)**: Higher flow temperatures, more intense heating
+- **HC = 0.5 (Conservative)**: Milder heating, lower flow temperatures
+- **HC = 0.75 (Default)**: Recommended balance for most systems
+- **HC = 1.0 (Aggressive)**: Higher flow temperatures, more intense heating
 
 Notice all curves are steeper at lower temperatures (more aggressive heating when cold) and flatten as they approach indoor comfort levels. The HC parameter shifts the entire curve up or down without changing its fundamental shape.
 
@@ -81,13 +81,13 @@ The wind adjustment follows a power law curve, providing moderate compensation t
 
 | Outdoor Temp | Flow Temp (no wind) | 10 km/h wind | 20 km/h wind | 30 km/h wind |
 |--------------|---------------------|--------------|--------------|--------------|
-| -20°C        | 60.0°C (max)        | 60.0°C (max) | 60.0°C (max) | 60.0°C (max) |
-| -10°C        | 56.2°C              | 57.1°C       | 57.9°C       | 58.7°C       |
-| -5°C         | 51.4°C              | 52.3°C       | 53.1°C       | 53.9°C       |
-| 0°C          | 46.4°C              | 47.3°C       | 48.1°C       | 48.9°C       |
-| 5°C          | 41.1°C              | 42.0°C       | 42.8°C       | 43.6°C       |
-| 10°C         | 35.4°C              | 36.3°C       | 37.1°C       | 37.9°C       |
-| 15°C         | 28.9°C              | 29.9°C       | 30.7°C       | 31.4°C       |
+| -20°C        | 56.2°C              | 57.1°C       | 57.9°C       | 58.7°C       |
+| -10°C        | 48.9°C              | 49.9°C       | 50.7°C       | 51.4°C       |
+| -5°C         | 45.1°C              | 46.0°C       | 46.8°C       | 47.6°C       |
+| 0°C          | 41.1°C              | 42.0°C       | 42.8°C       | 43.6°C       |
+| 5°C          | 36.8°C              | 37.8°C       | 38.6°C       | 39.3°C       |
+| 10°C         | 32.3°C              | 33.2°C       | 34.0°C       | 34.8°C       |
+| 15°C         | 27.1°C              | 28.1°C       | 28.9°C       | 29.6°C       |
 | 20°C         | 20.0°C (min)        | 20.9°C       | 21.7°C       | 22.5°C       |
 
 ![Table Graph](table-graph.svg)
@@ -98,19 +98,19 @@ The graph visualizes all values from the table above, showing how flow temperatu
 
 To make the heating more or less aggressive, adjust the **HC** (Heat Curve) parameter:
 
-- **HC = 0.8**: Conservative, milder heating
-- **HC = 1.0**: Recommended balance (default)
-- **HC = 1.5**: Aggressive, hotter heating
+- **HC = 0.5**: Conservative, milder heating
+- **HC = 0.75**: Recommended balance (default)
+- **HC = 1.0**: Aggressive, hotter heating
 
-Example for HC=0.75:
+Example for HC=1.0:
 ```python
 {{ min(60, max(20,
-    2.55 * (0.75 * max(0, 20 - float(states('sensor.gw3000a_outdoor_temperature')))) ** 0.78 + 20
+    2.55 * (1.0 * max(0, 20 - float(states('sensor.gw3000a_outdoor_temperature')))) ** 0.78 + 20
     + 0.1178 * float(states('sensor.average_wind_speed_hourly')) ** 0.898
 )) | round(0) }}
 ```
 
-![HC = 0.75 Example](hc-example.svg)
+![HC = 1.0 Example](hc-example.svg)
 
 ## Reference
 
